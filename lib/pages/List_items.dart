@@ -39,6 +39,12 @@ class _ListitemsState extends State<Listitems> {
           return Itemcard(routine: work);
         }).toList(),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pushNamed(context, '/newroutine');
+        },
+        child: Icon(Icons.add),
+      ),
     );
   }
 }
