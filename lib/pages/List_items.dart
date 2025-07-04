@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'Routine.dart';
 import 'Item_card.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'Newroutine.dart';
 
 class Listitems extends StatefulWidget {
   const Listitems({super.key});
@@ -33,17 +34,22 @@ class _ListitemsState extends State<Listitems> {
         ),
         backgroundColor: Colors.blue,
         foregroundColor: Colors.white,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.add),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const NewRoutine()),
+              );
+            },
+          ),
+        ],
       ),
       body: ListView(
         children: routine.map((work) {
           return Itemcard(routine: work);
         }).toList(),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushNamed(context, '/newroutine');
-        },
-        child: Icon(Icons.add),
       ),
     );
   }
