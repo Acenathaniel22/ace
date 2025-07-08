@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+import '../services/world_time.dart';
 
 class Loading extends StatefulWidget {
   const Loading({super.key});
@@ -10,23 +9,45 @@ class Loading extends StatefulWidget {
 }
 
 class _LoadingState extends State<Loading> {
-  void getData() async {
-    http.Response response = await http.get(
-      Uri.parse('https://jsonplaceholder.typicode.com/todos/1'),
+  String time = 'loading';
+
+  void setupWorldTime() async {
+    // Default to Nairobi, Kenya
+    WorldTime instance = WorldTime(
+      location: 'Kenya',
+      flag: 'kenya.png',
+      url: 'Africa/Nairobi',
     );
-    Map data = jsonDecode(response.body);
-    print(data);
-    print(data['title']);
+
+    await instance.getTime();
+
+    Navigator.pushReplacementNamed(
+      context,
+      '/home',
+      arguments: {
+        'location': instance.location,
+        'time': instance.time,
+        'flag': instance.flag,
+        'url': instance.url,
+      },
+    );
   }
 
   @override
   void initState() {
     super.initState();
-    getData();
+    setupWorldTime();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Text('loading screen'));
+    return Scaffold(
+      body: Padding(
+        padding: EdgeInsets.all(50.0),
+        child: Center(
+          child: Text('Loading...', style: TextStyle(fontSize: 24)),
+        ),
+      ),
+    );
   }
 }
